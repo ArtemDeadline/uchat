@@ -21,7 +21,8 @@ struct client_info* dup_client_info()
     client->tags = (struct tag_info**) malloc(sizeof(struct tag_info*));
     client->tags[0] = NULL;
     client->last_id_chat = -1;
-    client->who_push = 0;       
+    client->who_push = 0;
+    client->who_add = 0;
     client->callbacks = dup_callbacks();
 
     return client;

@@ -22,7 +22,10 @@ struct respons *receive_respons(int socketfd)
         }
     }
     //printf("request:%s\n", request);
+
+    printf("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n");
     set_respons_from_json(request, resp);
+
     free(request);
     return resp;
     /*size_t received_count;

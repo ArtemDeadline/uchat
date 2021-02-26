@@ -5,7 +5,7 @@ NAME = uchat
 base = main 
 
 login = log_main_loop sign_check_correct check_register uchat_base create_user_button \
-	mx_itoa mx_strnew create_us_chat add_message
+	mx_itoa mx_strnew create_us_chat add_message search_list search_clear_list users_add
 
 net_functions = Connect Inet_pton Socket 
 

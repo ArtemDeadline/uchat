@@ -50,6 +50,7 @@ struct client_info
     struct tag_info** tags;
     int last_id_chat;
     int who_push;
+    int who_add;
     struct callback_funcs* callbacks;
 };
 

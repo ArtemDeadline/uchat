@@ -2,10 +2,10 @@
 
 void registr_user(struct client_info* client, int socketfd, char *user_name, char* user_surname, char* user_password, char* phone, char* image, int* tagsid, int tags_length)
 {   
-    client->current_user->name = user_name;
-    client->current_user->lastname = user_surname;
-    client->current_user->phone_number = phone;
-    client->current_user->image = image;
+    client->current_user->name = mx_strdup(user_name);
+    client->current_user->lastname = mx_strdup(user_surname);
+    client->current_user->phone_number = mx_strdup(phone);
+    client->current_user->image = mx_strdup(image);
 
 
     cJSON* json = cJSON_CreateObject();

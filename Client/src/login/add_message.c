@@ -27,15 +27,21 @@ static t_user_message  * push_massage(const gchar * label_text, t_user_message *
     GDateTime * times = g_date_time_new_now_local();
         
     tmp->time = gtk_label_new (g_date_time_format(times,"%H:%M"));
+    gtk_widget_set_name(tmp->time,"label_time");
     gtk_grid_attach(GTK_GRID(tmp->grid),tmp->time, 0,0,1,1);
     gtk_grid_attach(GTK_GRID(tmp->grid),tmp->text_message, 0,1,1,1);
     gtk_widget_show_all(tmp->grid);
     gtk_widget_set_hexpand (tmp->grid,TRUE);
     gtk_widget_set_halign(tmp->grid,GTK_ALIGN_END);
+    //
+    gtk_widget_set_hexpand (tmp->time,TRUE);
+    gtk_widget_set_halign(tmp->time,GTK_ALIGN_START);
+    gtk_grid_set_row_spacing (GTK_GRID(tmp->grid),3);
+    //
     gtk_grid_attach(GTK_GRID(base->bases), tmp->grid,0,base->leng_mes,1,1);
     base->leng_mes += 1;
     gtk_label_set_line_wrap(GTK_LABEL(tmp->text_message),TRUE);
-    gtk_label_set_line_wrap_mode (GTK_LABEL(tmp->text_message), PANGO_WRAP_WORD);
+    gtk_label_set_line_wrap_mode (GTK_LABEL(tmp->text_message), PANGO_WRAP_WORD_CHAR);
     gtk_label_set_max_width_chars(GTK_LABEL(tmp->text_message),60);
     
     tmp->next = head;
@@ -53,13 +59,19 @@ static void add_text_label(t_user_base * base,const gchar * label_text){
         base->messages->grid = gtk_grid_new();
         GDateTime * times = g_date_time_new_now_local();
         base->messages->time = gtk_label_new (g_date_time_format(times,"%H:%M"));
+        gtk_widget_set_name(base->messages->time,"label_time");
         gtk_grid_attach(GTK_GRID(base->messages->grid),base->messages->time, 0,0,1,1);
         gtk_grid_attach(GTK_GRID(base->messages->grid),base->messages->text_message, 0,1,1,1);
         gtk_widget_show_all(base->messages->grid);
         gtk_widget_set_hexpand (base->messages->grid,TRUE);
         gtk_widget_set_halign(base->messages->grid,GTK_ALIGN_END);
+        //
+        gtk_widget_set_hexpand (base->messages->time,TRUE);
+        gtk_widget_set_halign(base->messages->time,GTK_ALIGN_START);
+        gtk_grid_set_row_spacing (GTK_GRID(base->messages->grid),3);
+        //
         gtk_label_set_line_wrap(GTK_LABEL(base->messages->text_message),TRUE);
-        gtk_label_set_line_wrap_mode (GTK_LABEL(base->messages->text_message), PANGO_WRAP_WORD);
+        gtk_label_set_line_wrap_mode (GTK_LABEL(base->messages->text_message), PANGO_WRAP_WORD_CHAR);
         gtk_label_set_max_width_chars (GTK_LABEL(base->messages->text_message),60);
         //
         //gtk_widget_set_hexpand ((base->messages->text_message),TRUE);
@@ -80,17 +92,23 @@ static t_user_message  * push_massage_another_user(const gchar * label_text, t_u
     tmp->text_message = gtk_label_new (label_text);
     tmp->grid = gtk_grid_new();
     GDateTime * times = g_date_time_new_now_local();
-        
+    
     tmp->time = gtk_label_new (g_date_time_format(times,"%H:%M"));
+    gtk_widget_set_name(tmp->time,"label_time");
     gtk_grid_attach(GTK_GRID(tmp->grid),tmp->time, 0,0,1,1);
     gtk_grid_attach(GTK_GRID(tmp->grid),tmp->text_message, 0,1,1,1);
     gtk_widget_show_all(tmp->grid);
     gtk_widget_set_hexpand(tmp->grid,TRUE);
     gtk_widget_set_halign(tmp->grid,GTK_ALIGN_START);
+    //
+    gtk_widget_set_hexpand (tmp->time,TRUE);
+    gtk_widget_set_halign(tmp->time,GTK_ALIGN_START);
+    gtk_grid_set_row_spacing (GTK_GRID(tmp->grid),3);
+    //
     gtk_grid_attach(GTK_GRID(base->bases), tmp->grid,0,base->leng_mes,1,1);
     base->leng_mes += 1;
     gtk_label_set_line_wrap(GTK_LABEL(tmp->text_message),TRUE);
-    gtk_label_set_line_wrap_mode (GTK_LABEL(tmp->text_message), PANGO_WRAP_WORD);
+    gtk_label_set_line_wrap_mode (GTK_LABEL(tmp->text_message), PANGO_WRAP_WORD_CHAR);
     gtk_label_set_max_width_chars(GTK_LABEL(tmp->text_message),60);
     
     tmp->next = head;
@@ -107,13 +125,19 @@ static void add_text_label_another_user(t_user_base * base,const gchar * label_t
         base->messages->grid = gtk_grid_new();
         GDateTime * times = g_date_time_new_now_local();
         base->messages->time = gtk_label_new (g_date_time_format(times,"%H:%M"));
+        gtk_widget_set_name(base->messages->time,"label_time");
         gtk_grid_attach(GTK_GRID(base->messages->grid),base->messages->time, 0,0,1,1);
         gtk_grid_attach(GTK_GRID(base->messages->grid),base->messages->text_message, 0,1,1,1);
         gtk_widget_show_all(base->messages->grid);
         gtk_widget_set_hexpand (base->messages->grid,TRUE);
         gtk_widget_set_halign(base->messages->grid,GTK_ALIGN_START);
+        //
+        gtk_widget_set_hexpand (base->messages->time,TRUE);
+        gtk_widget_set_halign(base->messages->time,GTK_ALIGN_START);
+        gtk_grid_set_row_spacing (GTK_GRID(base->messages->grid),3);
+        //
         gtk_label_set_line_wrap(GTK_LABEL(base->messages->text_message),TRUE);
-        gtk_label_set_line_wrap_mode (GTK_LABEL(base->messages->text_message), PANGO_WRAP_WORD);
+        gtk_label_set_line_wrap_mode (GTK_LABEL(base->messages->text_message), PANGO_WRAP_WORD_CHAR);
         gtk_label_set_max_width_chars (GTK_LABEL(base->messages->text_message),60);
         //
         //gtk_widget_set_hexpand ((base->messages->text_message),TRUE);
@@ -133,36 +157,31 @@ static void add_text_label_another_user(t_user_base * base,const gchar * label_t
 
 
 void add_message(t_uchat_bases * widgest, int type, char * text_message, int chat){
-     g_print("grid + v == %d\n",widgest->grid_v);
     if(type == 1){
-        g_print("WE  TUT == 1\n"); 
+      //  g_print("TABLAT_SUKA\n");
         char * sup_text = (char *) gtk_widget_get_name(widgest->active_grid);
+     //   g_print("TABLAT_SUKA\n");
         t_user_base * base = search_user_chat(widgest->us_data->user_ch,sup_text);
+     //   g_print("TABLAT_SUKA\n");
         add_text_label(base,text_message);
+       // g_print("TABLAT_SUKA\n");
         gtk_entry_set_text(GTK_ENTRY(widgest->chat_entry),"");
-        g_print("WE NOT  TUT == 1\n"); 
     }else {
         if(type == 2){
-            g_print("WE  TUT == 2\n"); 
              char * sup_text = (char *) gtk_widget_get_name(widgest->active_grid);
             t_user_base * base = search_user_chat(widgest->us_data->user_ch,sup_text);
             add_text_label_another_user(base,text_message);
-            g_print("WE NOT  TUT == 2\n"); 
         }else{
             if(type == 3){
-            g_print("WE  TUT == 3\n");
             char * sup_text = (char *) gtk_widget_get_name(widgest->active_grid);
             t_user_base * base = search_user_chat(widgest->us_data->user_ch,sup_text);
             //g_print("TEXT == %s, user_char %d\n" ,text_message, atoi(sup_text));
             add_text_label(base,text_message);
             send_message(client->socketfd,client->current_user->id,atoi(sup_text),text_message);
             gtk_entry_set_text(GTK_ENTRY(widgest->chat_entry),"");
-            g_print("WE NOT  TUT == 3\n"); 
             }else{
-                g_print("WE  TUT == 4\n");
                 t_user_base * base = search_user_chat(widgest->us_data->user_ch,mx_itoa(chat));
                 add_text_label_another_user(base,text_message);
-                g_print("WE NOT  TUT == 4\n"); 
             }
         }
     }

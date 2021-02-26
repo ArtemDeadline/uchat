@@ -41,9 +41,9 @@ static void mutex_remove_client(t_client client, t_list_of_clients **current){
 }
 
 static bool init_user_id(t_list_of_clients * current, cJSON * json_response){
-    //printf("%s\n", cJSON_Print(json_response));
+    printf("INIT USER: %s\n", cJSON_Print(json_response));
     fflush(stdout);
-    if(current->client.user_id == -1 && MX_VINT(json_response, TYPE) == 1) {
+    if(current->client.user_id == -1) {
         cJSON * user =  cJSON_GetObjectItem( cJSON_GetObjectItem(json_response, "json_info") , "user" );
         current->client.user_id = cJSON_GetObjectItem(user, "id_user")->valueint;
         logging(&server->log, INFO, NULL, "client with socket_fd %d, set user_id %d", current->client.socket, current->client.user_id);
@@ -60,9 +60,11 @@ static void free_step(cJSON ** json_response, char **request){
 static void update_all_users(cJSON * json_response){
     cJSON *users = cJSON_GetObjectItem(cJSON_GetObjectItem(json_response, "json_info"), "users");
     int size = cJSON_GetArraySize(users);
+    printf("SIZE: %d\n", size);
     int int_users[size];
     for(int i = 0; i < size; i++){
         int_users[i] = cJSON_GetArrayItem(cJSON_GetArrayItem(users, i), 0)->valueint;
+        printf("USER_ID: %d\n", int_users[i]);
     }
     cJSON_DeleteItemFromObject(cJSON_GetObjectItem(json_response, "json_info"), "users");
     char *response = cJSON_Print(json_response);
@@ -152,7 +154,7 @@ void loop_server(t_server *_server) {
     server = _server;
     mx_init_db(&server->db);
     signal(SIGINT, sign);
-    daemonize_server();
+    //daemonize_server();
     while(1) {
         if((client.socket = accept(server->socket, 
                             (t_sockaddr*)&client.addr,

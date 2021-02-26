@@ -2,6 +2,9 @@
 #include "structs.h" 
 #include "gui.h"
 
+
+#define SIZE_CHAT(x) (sizeof(x)/ sizeof((x)[0]))   
+
 /////////////net_functions/////////////
 int Socket(int domain, int type, int protocol);
 int Connect(int sockfg, const struct sockaddr *address, socklen_t address_len);

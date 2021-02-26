@@ -1,7 +1,7 @@
 #include "../inc/database.h"
 
-#define QUERY_GET_USER_PASSWORD "SELECT count(*), user_password, id_user FROM user_table WHERE phone = %s"
-#define QUERY_GET_USER_ID "SELECt id_user FROM user_table WHERE phone = %s;"
+#define QUERY_GET_USER_PASSWORD "SELECT count(*), user_password, id_user FROM user_table WHERE phone = '%s'"
+#define QUERY_GET_USER_ID "SELECT id_user FROM user_table WHERE phone = '%s';"
 #define USER_ID "id_user"
 
 static int add_user_id(void *data, int argc, char **argv, char **cols)

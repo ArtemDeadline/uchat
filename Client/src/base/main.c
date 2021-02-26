@@ -4,6 +4,8 @@
 static void after_login();
 static void change_status();
 static void get_send();
+static void search_user_tag();
+static void add_chat();
 void get_all_tas(struct client_info* client)
 {
     printf("tags:\n");
@@ -158,14 +160,14 @@ int main(int argc, char**  argv)
     client->socketfd = socketfd;
     client->callbacks->get_add_member_by_id = &change_status;
     client->callbacks->get_chat_info = &change_status;
-    client->callbacks->get_create_chat = &change_status;
+    client->callbacks->get_create_chat = &add_chat;
     client->callbacks->get_delete_chat = &change_status;
     client->callbacks->get_delete_message = &change_status;
     client->callbacks->get_edit_message = &change_status;
     client->callbacks->get_login_user = &change_status;
     client->callbacks->get_register_user = &change_status;
     client->callbacks->get_send_message = &get_send;
-    client->callbacks->get_search_users_by_tag_id = &change_status;
+    client->callbacks->get_search_users_by_tag_id = &search_user_tag;
     client->callbacks->get_all_tags = &change_status;
 
     int con = Connect(socketfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
@@ -186,27 +188,47 @@ int main(int argc, char**  argv)
     pthread_create(&tid, NULL, handle_respons, (void*)client);
 
     log_main_loop();
-    
     uchat_base();
     return 0;
 }
 
+
+static void add_chat(){
+    g_print("XXXxuis id \n");
+    if(client->who_add == 1){
+        client->status = 1;
+        client->who_add = 0;
+    }
+    else{
+        g_print("client->== id, %d",client->chats[0]->id);
+        create_user_button(&(widgets->us_data->user_but),widgets->grid_v);
+        g_signal_connect(widgets->us_data->user_but->user_info[0],"toggled",G_CALLBACK(user_toggled),widgets);
+        gtk_grid_attach(GTK_GRID(widgets->grid_user_online),widgets->us_data->user_but->user_info[0],0, widgets->grid_v,1,1);
+        widgets->grid_v += 1;
+        create_us_chat(widgets);
+        gtk_widget_show(widgets->us_data->user_ch->bases);
+    }
+}
+
+static void search_user_tag(){
+    if(widgets->us_data->search != NULL){
+        widgets->us_data->search = search_clear_list(widgets->us_data->search);
+    }
+    for(int i = 0;  client->searced_users[i] != NULL; i++){
+        search_list(&(widgets->us_data->search),i);
+    }
+}
+
 static void get_send(){
-    g_print("WE TUT\n");
     if(client->who_push){
-        g_print("WE TUT222\n");
         client->who_push = 0;
-        g_print("WE TUT33333\n");
     }else{
-        g_print("123\n");
         for(int i = 0; client->chats[i] != NULL; i++){
             if(client->chats[i]->id == client->last_id_chat){
                 add_message(widgets,4,client->chats[i]->last_message,client->last_id_chat);
             }
         }
-        g_print("123123213123213213213123\n");
     }
-    g_print("WE NOT TUT\n");
 }
 
 static void change_status()

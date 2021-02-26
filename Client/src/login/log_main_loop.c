@@ -11,16 +11,19 @@ void dialog_cancel(GtkButton * button, wig_log *widgets){
 void dialog_ok(GtkButton * button,wig_log *widgets){
     gtk_widget_hide(widgets->win_dialog);
     widgets->loop = FALSE;
+    g_print("client_STATUS == 111 %d\n",client->status);
     char * phone = (char * )gtk_entry_get_text(GTK_ENTRY(widgets->in_login));
     char * name_first = (char * )gtk_entry_get_text(GTK_ENTRY(widgets->ip_ent_first));
     char * name_last = (char * )gtk_entry_get_text(GTK_ENTRY(widgets->ip_ent_last));
     char * password = (char * )gtk_entry_get_text(GTK_ENTRY(widgets->ip_pasword));
+    g_print("phone == %s, f == %s, l == %s , p == %s",phone,name_first,name_last,password );
     GtkWidget * rand;
     GtkWidget * togled;
     int leng = 0;
     for(int i = 0; i < widgets->col_vo; i++){
         togled = gtk_grid_get_child_at (GTK_GRID(widgets->grid_tags),0,i);
         if(gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(togled)) == TRUE){
+            g_print("LENG == %d\n",leng);
             leng++;
         }
     }
@@ -30,17 +33,20 @@ void dialog_ok(GtkButton * button,wig_log *widgets){
         if(gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(togled)) == TRUE){
             rand = gtk_grid_get_child_at (GTK_GRID(widgets->grid_tags),1,i);
             //g_print("i == %d, j == %d,name == %s\n",i,j,gtk_widget_get_name(rand));
+            g_print("tags_id == %d\n",atoi(gtk_widget_get_name(rand)));
             tags_id[j] = atoi(gtk_widget_get_name(rand));
             j++;
         }
-        
     }
     registr_user(client,client->socketfd, name_first,name_last,password,phone,(char*) widgets->files,tags_id,leng);
     while(client->status == 0){
         g_print("");
     }
+    g_print("client_STATUS == %d\n",client->status);
     if(client->status == 1){
+        widgets->loop = FALSE;
         gtk_main_quit();
+        gtk_widget_destroy(widgets->log_win);
         g_slice_free(wig_log,widgets);
         client->status = 0;
     }else{
@@ -49,8 +55,8 @@ void dialog_ok(GtkButton * button,wig_log *widgets){
             gtk_entry_set_text(GTK_ENTRY(widgets->ip_ent_last), "");
             gtk_entry_set_text(GTK_ENTRY(widgets->ip_pasword), "");
             gtk_entry_set_text(GTK_ENTRY(widgets->ip_confirm), "");
+            client->status = 0;
     }
-
 }
 
 
@@ -112,13 +118,14 @@ void sig_in_clicked(GtkButton * button, wig_log *widgets){
 }
 /*нажатие кнопки sigin*/
 void sig_up_clicked(GtkButton * button, wig_log *widgets){
+    g_print("EROOR\n");
         if(check_register(widgets)){
            gtk_widget_show(GTK_WIDGET(widgets->win_dialog));
             if(client->tags[0] == NULL){
             get_all_tags(client->socketfd);
             }
            while(client->status == 0){
-               g_print("");
+               g_print("XUIIII\n");
            }
            client->status = 0;
            for(int i = 0; client->tags[i] != NULL ; i ++){

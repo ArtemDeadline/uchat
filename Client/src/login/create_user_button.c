@@ -10,11 +10,11 @@ static t_userbuton *add_element_start(t_userbuton *head, int j,int i){
     gtk_container_add(GTK_CONTAINER(tmp->user_info[0]),tmp->user_info[1]);
     GdkPixbuf *    pixbuf;
     GError *error = 0;
-    pixbuf = gdk_pixbuf_new_from_file_at_scale ("Resources/images/dangen.jpg",64,64,FALSE,&error);
+    pixbuf = gdk_pixbuf_new_from_file_at_scale ("Resources/images/us_128.png",64,64,FALSE,&error);
     tmp->user_info[2] = gtk_image_new_from_pixbuf(pixbuf);
     tmp->user_info[3] = gtk_label_new (client->chats[i]->name);
-    tmp->user_info[4] = gtk_label_new ("0:0");
-    tmp->user_info[5] = gtk_label_new ("message");
+    tmp->user_info[4] = gtk_label_new ("");
+    tmp->user_info[5] = gtk_label_new ("");
     gtk_label_set_ellipsize (GTK_LABEL(tmp->user_info[5]),PANGO_ELLIPSIZE_END);
     tmp->user_info[6] = gtk_grid_new ();
     tmp->user_info[7] = gtk_grid_new ();
@@ -41,13 +41,13 @@ void  create_user_button(t_userbuton **t_user, int i){
     gtk_container_add(GTK_CONTAINER(new->user_info[0]),new->user_info[1]);
     GdkPixbuf *    pixbuf;
     GError *error = 0;
-    pixbuf = gdk_pixbuf_new_from_file_at_scale ("Resources/images/dangen.jpg",64,64,FALSE,&error);
+    pixbuf = gdk_pixbuf_new_from_file_at_scale ("Resources/images/us_128.png",64,64,FALSE,&error);
     new->user_info[2] = gtk_image_new_from_pixbuf(pixbuf);
     //g_print("%s",client->chats[i]->name);
     //g_print("%s \n",gtk_widget_get_name(GTK_WIDGET(new->user_info[0])));
     new->user_info[3] = gtk_label_new (client->chats[i]->name);
-    new->user_info[4] = gtk_label_new ("0:0");
-    new->user_info[5] = gtk_label_new ("message");
+    new->user_info[4] = gtk_label_new ("");
+    new->user_info[5] = gtk_label_new ("");
     gtk_label_set_ellipsize ( GTK_LABEL(new->user_info[5]),PANGO_ELLIPSIZE_END);
     new->user_info[6] = gtk_grid_new ();
     new->user_info[7] = gtk_grid_new ();
@@ -65,4 +65,6 @@ void  create_user_button(t_userbuton **t_user, int i){
       (*t_user) =  add_element_start((*t_user),j, i);
       j++;
     }
+  
+    
 }

@@ -274,6 +274,8 @@ void respons_handler(struct client_info* client, struct respons* resp)
         }
         case CREATE_CHAT:
         {
+            printf("CREATE CHAT\n");
+            fflush(stdout);
             cJSON* chat_json = cJSON_GetObjectItem(cJSON_Parse(resp->json_info), "chat");
 
             int i;
@@ -299,8 +301,8 @@ void respons_handler(struct client_info* client, struct respons* resp)
             printf("USERS SIZE: %d\n", users_size);
             fflush(stdout);
 
-            client->searced_users = (struct user_info**) realloc(client->chats, sizeof(struct user_info*) * (users_size + 1));
-            client->chats[users_size] = NULL;
+            client->searced_users = (struct user_info**) realloc(client->searced_users, sizeof(struct user_info*) * (users_size + 1));
+            client->searced_users[users_size] = NULL;
 
             for (int i = 0; i < users_size; i++)
             {

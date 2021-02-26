@@ -77,12 +77,21 @@ struct user_cha{
     gint  leng_mes;
 };
 typedef struct our_user t_our_user;
+typedef struct user_search  t_user_search;
+struct user_search{
+    t_user_search * next;
+    GtkWidget * togle_but;
+    GtkWidget * g_base;
+    GtkWidget * label_name;
+    GtkWidget * user_image;
 
+};
 
 typedef struct user_data t_user_data;
 struct user_data{
     t_userbuton * user_but;
     t_user_base * user_ch;
+    t_user_search * search;
     gint  * leng_user;
 };
 
@@ -93,19 +102,24 @@ struct uchat_bases{
     GtkWidget * stack_1;
     GtkWidget * chat_entry;
     GtkWidget * image_user;
-    GtkWidget * image_lupa;
     GtkWidget * grid_user_online;
-    GtkWidget * grid_user_offline;
     GtkWidget * chat_infos;
     GtkWidget * add_;
     GtkWidget * push;
     t_user_data * us_data;
     gint  grid_v;
-    gint who_push;
+    gint len_tags;
     GtkWidget * last_user_button;
     GtkWidget * active_grid;
     GtkAdjustment * adj;
     GtkWidget * user_names;
+    GtkWidget * pop_searh;
+    GtkWidget * grid_popv_teg;
+    GtkWidget * grid_popov_users;
+    GtkWidget * last_check;
+    GtkWidget * chat_g_name;
+    GtkWidget * iddes;
+    GtkWidget * chat_namess;
 };
 
 
@@ -118,4 +132,7 @@ char *mx_strnew(const int size, char c);
 char *mx_itoa(int number);
 void create_us_chat(t_uchat_bases * widgets);
 void add_message(t_uchat_bases * widgest, int type, char * text_message, int chat);
-
+void search_list(t_user_search  ** search, int i);
+t_user_search *search_clear_list(t_user_search *head);
+void user_toggled(GtkToggleButton * togglebutton, gpointer user_data );
+void users_add(GtkToggleButton * button, t_uchat_bases * widgets);

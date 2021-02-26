@@ -50,7 +50,8 @@ static void get_tags(sqlite3 *db, cJSON *json_info, int id_user)
     asprintf(&query, "SELECT * FROM tags\
                     JOIN user_tag ON tags.id_tag = user_tag.id_tag\
                     JOIN user_table ON user_tag.id_user = user_table.id_user\
-                    WHERE user_tag.id_user = %d;",
+                    WHERE user_tag.id_user = '%d';",
+
                     id_user);
     rc = sqlite3_exec(db, query, callback5, tags, &err);
     cJSON_AddItemToObject(json_info, "tags", cJSON_Duplicate(tags, 1));
@@ -64,9 +65,11 @@ static void add_tags(sqlite3 *db, cJSON *jsn, int id_user)
     char *err = NULL;
     int rc = 0;
     cJSON *tags = cJSON_GetObjectItem(jsn, "tags");
-    for (size_t i = 0; i < cJSON_GetArraySize(tags); i++)
+    
+    for (int i = 0; i < cJSON_GetArraySize(tags); i++)
     {
-        asprintf(&query, "INSERT INTO user_tag(id_user, id_tag) VALUES(%d, %d);",id_user,cJSON_GetArrayItem(tags, i)->valueint);
+        //printf("id_tag:%d\n", cJSON_GetArrayItem(tags, i)->valueint);
+        asprintf(&query, "INSERT INTO user_tag(id_user, id_tag) VALUES('%d', '%d');",id_user,cJSON_GetArrayItem(tags, i)->valueint);
         rc = sqlite3_exec(db, query, NULL, NULL, &err);
         free(query);
     }
